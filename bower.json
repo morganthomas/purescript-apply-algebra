@@ -1,5 +1,12 @@
 {
   "name": "purescript-apply-algebra",
+  "homepage": "https://github.com/morganthomas/purescript-apply-algebra",
+  "description": "Make new algebras out of old algebras using applicative functors.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/morganthomas/purescript-apply-algebra.git"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
