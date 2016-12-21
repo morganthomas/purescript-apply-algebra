@@ -7,7 +7,9 @@
     "output"
   ],
   "dependencies": {
-    "purescript-newtype": "^1.1.0"
+    "purescript-newtype": "^1.1.0",
+    "purescript-group": "^1.1.0",
+    "purescript-monoid": "^2.0.0"
   },
   "devDependencies": {
     "purescript-psci-support": "^2.0.0"
