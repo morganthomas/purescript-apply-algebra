@@ -4,9 +4,10 @@ import Data.Functor (map)
 import Control.Apply (class Apply, lift2)
 import Control.Applicative (class Applicative, pure)
 import Data.Semigroup (class Semigroup, append)
-import Data.Newtype (class Newtype)
 import Data.Group (class Group, ginverse)
 import Data.Monoid (class Monoid, mempty)
+import Data.Semiring (class Semiring, one, zero, add, mul)
+import Data.Newtype (class Newtype)
 
 newtype ApplyAlgebra f a = ApplyAlgebra (f a)
 
@@ -36,3 +37,11 @@ instance applyMonoid :: (Applicative f, Monoid a) => Monoid (ApplyAlgebra f a) w
 -- | which requires an Applicative.
 instance applyGroup :: (Applicative f, Group a) => Group (ApplyAlgebra f a) where
   ginverse = applyAlgebraLift (map ginverse)
+
+-- | An Applicative applied to a Semiring may give you a Semiring. You need to
+-- | check whether the axioms hold.
+instance applySemiring :: (Applicative f, Semiring r) => Semiring (ApplyAlgebra f r) where
+  one = ApplyAlgebra (pure one)
+  zero = ApplyAlgebra (pure zero)
+  add = applyAlgebraLift2 (lift2 add)
+  mul = applyAlgebraLift2 (lift2 mul)
