@@ -1,3 +1,7 @@
+-- | This module lets you generate new algebras (semigroups, monoids, etc.) by applying
+-- | applicative functors to existing algebras. An example use case: given a ring r,
+-- | fixed-length vectors of r will again form a ring when the operations are defined
+-- | coordinate-wise.
 module Data.ApplyAlgebra where
 
 import Data.Functor (map)
@@ -9,8 +13,6 @@ import Data.Monoid (class Monoid, mempty)
 import Data.Semiring (class Semiring, one, zero, add, mul)
 import Data.Ring (class Ring, sub)
 import Data.CommutativeRing (class CommutativeRing)
-import Data.EuclideanRing (class EuclideanRing, div)
-import Data.Field (class Field)
 import Data.Newtype (class Newtype)
 
 newtype ApplyAlgebra f a = ApplyAlgebra (f a)
@@ -58,16 +60,3 @@ instance applyRing :: (Applicative f, Ring r) => Ring (ApplyAlgebra f r) where
 -- | An Applicative applied to a CommutativeRing may give you a CommutativeRing.
 -- | You need to check whether the axioms hold.
 instance applyCommutativeRing :: (Applicative f, CommutativeRing r) => CommutativeRing (ApplyAlgebra f r)
-
--- | An Applicative applied to a Field may give you a EuclideanRing. You need to
--- | check whether the axioms hold. I see no obvious way to generalize this to allow
--- | you to get a EuclideanRing from a non-Field EuclideanRing, one difficulty being
--- | how to define the degree function.
-instance applyFieldEuclideanRing :: (Applicative f, Field r) => EuclideanRing (ApplyAlgebra f r) where
-  mod x y = zero
-  div = applyAlgebraLift2 (lift2 div)
-  degree x = 1
-
--- | An Applicative applied to a Field may give you a Field. You need to check whether
--- | the axioms hold.
-instance applyFieldField :: (Applicative f, Field r) => Field (ApplyAlgebra f r)
