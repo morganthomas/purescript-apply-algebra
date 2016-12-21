@@ -7,6 +7,7 @@ import Data.Semigroup (class Semigroup, append)
 import Data.Group (class Group, ginverse)
 import Data.Monoid (class Monoid, mempty)
 import Data.Semiring (class Semiring, one, zero, add, mul)
+import Data.Ring (class Ring, sub)
 import Data.Newtype (class Newtype)
 
 newtype ApplyAlgebra f a = ApplyAlgebra (f a)
@@ -45,3 +46,8 @@ instance applySemiring :: (Applicative f, Semiring r) => Semiring (ApplyAlgebra 
   zero = ApplyAlgebra (pure zero)
   add = applyAlgebraLift2 (lift2 add)
   mul = applyAlgebraLift2 (lift2 mul)
+
+-- | An Applicative applied to a Ring may give you a Ring. You need to check
+-- | whether the axioms hold.
+instance applyRing :: (Applicative f, Ring r) => Ring (ApplyAlgebra f r) where
+  sub = applyAlgebraLift2 (lift2 sub)
