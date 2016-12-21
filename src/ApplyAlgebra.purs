@@ -2,6 +2,11 @@
 -- | applicative functors to existing algebras. An example use case: given a ring r,
 -- | fixed-length vectors of r will again form a ring when the operations are defined
 -- | coordinate-wise.
+-- |
+-- | None of these instances are correct in all possible applications;
+-- | you always need to check when using an ApplyAlgebra typeclass instance whether
+-- | the required algebraic axioms hold in your use case, or at least whether they hold
+-- | in enough generality for your use case.
 module Data.ApplyAlgebra where
 
 import Data.Functor (map)
